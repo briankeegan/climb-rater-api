@@ -11,7 +11,7 @@ const setModel = require('./concerns/set-mongoose-model')
 const index = (req, res, next) => {
   Wall.find()
     .populate({ path: '_section', select: 'name' })
-    .populate({ path: 'climbingRoutes', select: '_id _wall color' })
+    .populate({ path: 'climbingRoutes', select: '_id _wall color gymGrade ' })
     .then(walls => res.json({
       walls: walls.map((e) =>
         e.toJSON({ virtuals: true, user: req.user }))

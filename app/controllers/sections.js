@@ -10,7 +10,11 @@ const setModel = require('./concerns/set-mongoose-model')
 
 const index = (req, res, next) => {
   Section.find()
-    .populate({ path: 'walls', select: '_id _section number' })
+    .populate({ path: 'walls',
+      populate: {
+        path: 'climbingRoutes'
+      }
+    })
     .then(sections => res.json({
       sections: sections.map((e) =>
         e.toJSON({ virtuals: true, user: req.user }))
