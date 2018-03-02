@@ -2,12 +2,16 @@
 
 const mongoose = require('mongoose')
 
-const wallSchema = new mongoose.Schema({
-  number: {
-    type: Number,
+const climbinRouteSchema = new mongoose.Schema({
+  color: {
+    type: String,
     required: true
   },
-  imageURL: {
+  gymGrade: {
+    type: String,
+    required: true
+  },
+  routeSetter: {
     type: String,
     required: true
   },
@@ -16,9 +20,9 @@ const wallSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
-  _section: {
+  _wall: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Section',
+    ref: 'Wall',
     required: true
   }
 }, {
@@ -33,13 +37,6 @@ const wallSchema = new mongoose.Schema({
   }
 })
 
-wallSchema.virtual('climbingRoutes', {
-  ref: 'ClimbingRoute',
-  localField: '_id',
-  foreignField: '_wall',
-  justOne: false
-})
+const ClimbingRoute = mongoose.model('ClimbingRoute', climbinRouteSchema)
 
-const Wall = mongoose.model('Wall', wallSchema)
-
-module.exports = Wall
+module.exports = ClimbingRoute

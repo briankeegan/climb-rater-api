@@ -8,6 +8,7 @@ module.exports = require('lib/wiring/routes')
 .root('root#root')
 .resources('sections')
 .resources('walls')
+.resources('climbingRoutes')
 
 // users of the app have special requirements
 .post('/sign-up', 'users#signup')
