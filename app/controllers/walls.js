@@ -2,17 +2,17 @@
 
 const controller = require('lib/wiring/controller')
 const models = require('app/models')
-const Section = models.section
+const Wall = models.wall
 
 const authenticate = require('./concerns/authenticate')
 const setUser = require('./concerns/set-current-user')
 const setModel = require('./concerns/set-mongoose-model')
 
 const index = (req, res, next) => {
-  Section.find()
-    .populate({ path: 'walls', select: '_id _section' })
-    .then(sections => res.json({
-      sections: sections.map((e) =>
+  Wall.find()
+    .populate({ path: '_section', select: 'name' })
+    .then(walls => res.json({
+      walls: walls.map((e) =>
         e.toJSON({ virtuals: true, user: req.user }))
     }))
     .catch(next)
@@ -20,35 +20,33 @@ const index = (req, res, next) => {
 
 const show = (req, res) => {
   res.json({
-    section: req.section.toJSON({ virtuals: true, user: req.user })
+    wall: req.wall.toJSON({ virtuals: true, user: req.user })
   })
 }
 
 const create = (req, res, next) => {
-  const section = Object.assign(req.body.section, {
+  const wall = Object.assign(req.body.wall, {
     _owner: req.user._id
   })
-  Section.create(section)
-    .then(section =>
-      res.status(201)
-        .json({
-          section: section.toJSON({ virtuals: true, user: req.user })
-        }))
-    .catch(next)
+  Wall.create(wall)
+        .then(wall =>
+          res.status(201)
+            .json({
+              wall: wall.toJSON({ user: req.user })
+            }))
+        .catch(next)
 }
 
 const update = (req, res, next) => {
-  console.log(req.section.walls)
-  delete req.body.section._owner  // disallow owner reassignment.
+  delete req.body.wall._owner  // disallow owner reassignment.
 
-  req.section.update(req.body.section)
+  req.wall.update(req.body.wall)
     .then(() => res.sendStatus(204))
     .catch(next)
 }
 
 const destroy = (req, res, next) => {
-  console.log(req.section.walls)
-  req.section.remove()
+  req.wall.remove()
     .then(() => res.sendStatus(204))
     .catch(next)
 }
@@ -62,6 +60,6 @@ module.exports = controller({
 }, { before: [
   { method: setUser, only: ['index', 'show'] },
   { method: authenticate, except: ['index', 'show'] },
-  { method: setModel(Section), only: ['show'] },
-  { method: setModel(Section, { forUser: true }), only: ['update', 'destroy'] }
+  { method: setModel(Wall), only: ['show'] },
+  { method: setModel(Wall, { forUser: true }), only: ['update', 'destroy'] }
 ] })

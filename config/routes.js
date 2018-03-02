@@ -7,6 +7,7 @@ module.exports = require('lib/wiring/routes')
 // what to run for `GET /`
 .root('root#root')
 .resources('sections')
+.resources('walls')
 
 // users of the app have special requirements
 .post('/sign-up', 'users#signup')

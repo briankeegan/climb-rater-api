@@ -2,9 +2,9 @@
 
 const mongoose = require('mongoose')
 
-const sectionSchema = new mongoose.Schema({
-  name: {
-    type: String,
+const wallSchema = new mongoose.Schema({
+  number: {
+    type: Number,
     required: true
   },
   imageURL: {
@@ -14,6 +14,11 @@ const sectionSchema = new mongoose.Schema({
   _owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+    required: true
+  },
+  _section: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Section',
     required: true
   }
 }, {
@@ -28,13 +33,6 @@ const sectionSchema = new mongoose.Schema({
   }
 })
 
-sectionSchema.virtual('walls', {
-  ref: 'Wall',
-  localField: '_id',
-  foreignField: '_section',
-  justOne: false
-})
+const Wall = mongoose.model('Wall', wallSchema)
 
-const Section = mongoose.model('Section', sectionSchema)
-
-module.exports = Section
+module.exports = Wall
