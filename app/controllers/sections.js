@@ -12,7 +12,10 @@ const index = (req, res, next) => {
   Section.find()
     .populate({ path: 'walls',
       populate: {
-        path: 'climbingRoutes'
+        path: 'climbingRoutes',
+        populate: {
+          path: 'ratings'
+        }
       }
     })
     .then(sections => res.json({

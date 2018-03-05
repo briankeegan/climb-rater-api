@@ -36,6 +36,6 @@ const ratingSchema = new mongoose.Schema({
   }
 })
 
-const RatingRoute = mongoose.model('RatingRoute', ratingSchema)
+const Rating = mongoose.model('Rating', ratingSchema)
 
-module.exports = RatingRoute
+module.exports = Rating

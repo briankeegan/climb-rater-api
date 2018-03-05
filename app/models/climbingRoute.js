@@ -37,6 +37,13 @@ const climbinRouteSchema = new mongoose.Schema({
   }
 })
 
+climbinRouteSchema.virtual('ratings', {
+  ref: 'Rating',
+  localField: '_id',
+  foreignField: '_climbingRoute',
+  justOne: false
+})
+
 const ClimbingRoute = mongoose.model('ClimbingRoute', climbinRouteSchema)
 
 module.exports = ClimbingRoute

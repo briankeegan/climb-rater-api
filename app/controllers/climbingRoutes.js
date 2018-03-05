@@ -11,6 +11,7 @@ const setModel = require('./concerns/set-mongoose-model')
 const index = (req, res, next) => {
   ClimbingRoute.find()
     .populate({ path: '_wall', select: 'number' })
+      .populate({ path: 'ratings' })
     .then(climbingRoutes => res.json({
       climbingRoutes: climbingRoutes.map((e) =>
         e.toJSON({ virtuals: true, user: req.user }))
@@ -20,7 +21,7 @@ const index = (req, res, next) => {
 
 const show = (req, res) => {
   res.json({
-    climbingRoute: req.climbingRoute.toJSON({ virtuals: true, user: req.user })
+    climbingRoute: req.climbingroute.toJSON({ virtuals: true, user: req.user })
   })
 }
 
@@ -40,13 +41,13 @@ const create = (req, res, next) => {
 const update = (req, res, next) => {
   delete req.body.climbingRoute._owner  // disallow owner reassignment.
 
-  req.climbingRoute.update(req.body.climbingRoute)
+  req.climbingroute.update(req.body.climbingRoute)
     .then(() => res.sendStatus(204))
     .catch(next)
 }
 
 const destroy = (req, res, next) => {
-  req.climbingRoute.remove()
+  req.climbingroute.remove()
     .then(() => res.sendStatus(204))
     .catch(next)
 }
