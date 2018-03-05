@@ -9,6 +9,7 @@ module.exports = require('lib/wiring/routes')
 .resources('sections')
 .resources('walls')
 .resources('climbingRoutes')
+.resources('ratings')
 
 // users of the app have special requirements
 .post('/sign-up', 'users#signup')
