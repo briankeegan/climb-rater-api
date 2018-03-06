@@ -15,6 +15,10 @@ const climbinRouteSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  routeType: {
+    type: String,
+    required: true
+  },
   _owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
