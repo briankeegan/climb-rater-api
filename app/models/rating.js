@@ -16,8 +16,7 @@ const ratingSchema = new mongoose.Schema({
   _owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
-    unique: true
+    required: true
   },
   _climbingRoute: {
     type: mongoose.Schema.Types.ObjectId,
@@ -35,6 +34,8 @@ const ratingSchema = new mongoose.Schema({
     }
   }
 })
+
+ratingSchema.index({ _climbingRoute: 1, _owner: 1 }, { unique: true })
 
 const Rating = mongoose.model('Rating', ratingSchema)
 
