@@ -6,9 +6,9 @@ module.exports = require('lib/wiring/routes')
 
 // what to run for `GET /`
 .root('root#root')
-.resources('sections')
-.resources('walls')
-.resources('climbingRoutes')
+.resources('sections', { only: ['index', 'show'] })
+.resources('walls', { only: ['index', 'show'] })
+.resources('climbingRoutes', { only: ['index', 'show'] })
 .resources('ratings')
 
 // users of the app have special requirements
