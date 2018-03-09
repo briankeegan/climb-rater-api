@@ -35,8 +35,6 @@ const ratingSchema = new mongoose.Schema({
   }
 })
 
-ratingSchema.index({ _climbingRoute: 1, _owner: 1 }, { unique: true })
-
 const Rating = mongoose.model('Rating', ratingSchema)
 
 module.exports = Rating
