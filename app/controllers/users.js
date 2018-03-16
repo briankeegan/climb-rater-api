@@ -53,8 +53,12 @@ const signup = (req, res, next) => {
     })
     .then(() =>
       new User(user).save())
-    .then(user =>
-      res.status(201).json({ user }))
+    .then(user => {
+      user = user.toObject()
+      delete user.passwordDigest
+      user.token = encodeToken(user.token)
+      res.json({ user })
+    })
     .catch(makeErrorHandler(res, next))
 }
 
